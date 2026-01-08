@@ -759,6 +759,19 @@
                 }
 
                 const member = data.records[0];
+
+                // Check if user has Member role
+                const roles = member.fields.Role;
+                const hasRole = Array.isArray(roles) ? roles.includes('Member') : roles === 'Member';
+                
+                if (!hasRole) {
+                    document.getElementById('loginError').textContent = '❌ Access denied. This portal is for members only.';
+                    document.getElementById('loginError').style.display = 'block';
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Sign In';
+                    return;
+                }
+
                 currentMember = {
                     id: member.id,
                     memberId: member.id,

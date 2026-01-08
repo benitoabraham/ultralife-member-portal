@@ -461,38 +461,145 @@
                         <label for="updateMonth">Month *</label>
                         <input type="month" id="updateMonth" required>
                     </div>
+
+                    <h3 style="margin: 20px 0 10px; color: #667eea; font-size: 1.1rem;">Life Areas (Rate 1-10)</h3>
+
                     <div class="form-group">
-                        <label for="updateWeight">Weight (lbs)</label>
-                        <input type="number" id="updateWeight" step="0.1" placeholder="e.g., 175.5">
-                    </div>
-                    <div class="form-group">
-                        <label for="updateBodyFat">Body Fat %</label>
-                        <input type="number" id="updateBodyFat" step="0.1" min="0" max="100" placeholder="e.g., 18.5">
-                    </div>
-                    <div class="form-group">
-                        <label for="updateEnergy">Energy Level (1-10)</label>
-                        <select id="updateEnergy">
-                            <option value="">Select level...</option>
-                            <option value="1">1 - Very Low</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5 - Average</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10 - Excellent</option>
+                        <label for="updateHealth">Health *</label>
+                        <select id="updateHealth" required>
+                            <option value="">Select rating...</option>
+                            <option value="10 - Exceptional / Thriving!">10 - Exceptional / Thriving!</option>
+                            <option value="9 - Very Strong">9 - Very Strong</option>
+                            <option value="8 - Strong">8 - Strong</option>
+                            <option value="7 - Good / Moderate">7 - Good / Moderate</option>
+                            <option value="6 - Okay / Inconsistent">6 - Okay / Inconsistent</option>
+                            <option value="5 - Neutral / Stagnant">5 - Neutral / Stagnant</option>
+                            <option value="4 - Struggling">4 - Struggling</option>
+                            <option value="3 - Weak">3 - Weak</option>
+                            <option value="2 - Very Weak">2 - Very Weak</option>
+                            <option value="1 - Critical / Crisis">1 - Critical / Crisis</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="updateNotes">Notes</label>
-                        <textarea id="updateNotes" placeholder="Add any notes about your progress, challenges, or achievements..."></textarea>
+                        <label for="updateRelationships">Relationships *</label>
+                        <select id="updateRelationships" required>
+                            <option value="">Select rating...</option>
+                            <option value="10 - Exceptional / Thriving!">10 - Exceptional / Thriving!</option>
+                            <option value="9 - Very Strong">9 - Very Strong</option>
+                            <option value="8 - Strong">8 - Strong</option>
+                            <option value="7 - Good / Moderate">7 - Good / Moderate</option>
+                            <option value="6 - Okay / Inconsistent">6 - Okay / Inconsistent</option>
+                            <option value="5 - Neutral / Stagnant">5 - Neutral / Stagnant</option>
+                            <option value="4 - Struggling">4 - Struggling</option>
+                            <option value="3 - Weak">3 - Weak</option>
+                            <option value="2 - Very Weak">2 - Very Weak</option>
+                            <option value="1 - Critical / Crisis">1 - Critical / Crisis</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updatePurpose">Purpose & Mission *</label>
+                        <select id="updatePurpose" required>
+                            <option value="">Select rating...</option>
+                            <option value="10 - Exceptional / Thriving!">10 - Exceptional / Thriving!</option>
+                            <option value="9 - Very Strong">9 - Very Strong</option>
+                            <option value="8 - Strong">8 - Strong</option>
+                            <option value="7 - Good / Moderate">7 - Good / Moderate</option>
+                            <option value="6 - Okay / Inconsistent">6 - Okay / Inconsistent</option>
+                            <option value="5 - Neutral / Stagnant">5 - Neutral / Stagnant</option>
+                            <option value="4 - Struggling">4 - Struggling</option>
+                            <option value="3 - Weak">3 - Weak</option>
+                            <option value="2 - Very Weak">2 - Very Weak</option>
+                            <option value="1 - Critical / Crisis">1 - Critical / Crisis</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updatePersonal">Personal & Spiritual Development *</label>
+                        <select id="updatePersonal" required>
+                            <option value="">Select rating...</option>
+                            <option value="10 - Exceptional / Thriving!">10 - Exceptional / Thriving!</option>
+                            <option value="9 - Very Strong">9 - Very Strong</option>
+                            <option value="8 - Strong">8 - Strong</option>
+                            <option value="7 - Good / Moderate">7 - Good / Moderate</option>
+                            <option value="6 - Okay / Inconsistent">6 - Okay / Inconsistent</option>
+                            <option value="5 - Neutral / Stagnant">5 - Neutral / Stagnant</option>
+                            <option value="4 - Struggling">4 - Struggling</option>
+                            <option value="3 - Weak">3 - Weak</option>
+                            <option value="2 - Very Weak">2 - Very Weak</option>
+                            <option value="1 - Critical / Crisis">1 - Critical / Crisis</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateTimeFreedom">Time Freedom *</label>
+                        <select id="updateTimeFreedom" required>
+                            <option value="">Select rating...</option>
+                            <option value="10 - Exceptional / Thriving!">10 - Exceptional / Thriving!</option>
+                            <option value="9 - Very Strong">9 - Very Strong</option>
+                            <option value="8 - Strong">8 - Strong</option>
+                            <option value="7 - Good / Moderate">7 - Good / Moderate</option>
+                            <option value="6 - Okay / Inconsistent">6 - Okay / Inconsistent</option>
+                            <option value="5 - Neutral / Stagnant">5 - Neutral / Stagnant</option>
+                            <option value="4 - Struggling">4 - Struggling</option>
+                            <option value="3 - Weak">3 - Weak</option>
+                            <option value="2 - Very Weak">2 - Very Weak</option>
+                            <option value="1 - Critical / Crisis">1 - Critical / Crisis</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateFinancialFreedom">Financial Freedom *</label>
+                        <select id="updateFinancialFreedom" required>
+                            <option value="">Select rating...</option>
+                            <option value="10 - Exceptional / Thriving!">10 - Exceptional / Thriving!</option>
+                            <option value="9 - Very Strong">9 - Very Strong</option>
+                            <option value="8 - Strong">8 - Strong</option>
+                            <option value="7 - Good / Moderate">7 - Good / Moderate</option>
+                            <option value="6 - Okay / Inconsistent">6 - Okay / Inconsistent</option>
+                            <option value="5 - Neutral / Stagnant">5 - Neutral / Stagnant</option>
+                            <option value="4 - Struggling">4 - Struggling</option>
+                            <option value="3 - Weak">3 - Weak</option>
+                            <option value="2 - Very Weak">2 - Very Weak</option>
+                            <option value="1 - Critical / Crisis">1 - Critical / Crisis</option>
+                        </select>
+                    </div>
+
+                    <h3 style="margin: 20px 0 10px; color: #667eea; font-size: 1.1rem;">Top 1% Moments</h3>
+
+                    <div class="form-group">
+                        <label for="updateTop1Feelings">Strongest feelings and emotions</label>
+                        <input type="text" id="updateTop1Feelings" placeholder="e.g., Joy, gratitude, excitement">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateTop1Causes">What caused these feelings?</label>
+                        <textarea id="updateTop1Causes" placeholder="Describe what triggered these emotions..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateTop1Reflection">Self-Reflection</label>
+                        <textarea id="updateTop1Reflection" placeholder="What did you learn or realize from this experience?"></textarea>
+                    </div>
+
+                    <h3 style="margin: 20px 0 10px; color: #667eea; font-size: 1.1rem;">Bottom 1% Moments (Optional)</h3>
+
+                    <div class="form-group">
+                        <label for="updateBottom1Feelings">Strongest feelings and emotions</label>
+                        <input type="text" id="updateBottom1Feelings" placeholder="e.g., Frustration, anxiety, disappointment">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateBottom1Causes">What caused these feelings?</label>
+                        <textarea id="updateBottom1Causes" placeholder="Describe what triggered these emotions..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateBottom1Reflection">Self-Reflection</label>
+                        <textarea id="updateBottom1Reflection" placeholder="What did you learn or realize from this experience?"></textarea>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeAddUpdateModal()" class="btn-cancel">Cancel</button>
                 <button onclick="document.getElementById('addUpdateForm').requestSubmit()">Save Update</button>
             </div>
         </div>
@@ -1041,15 +1148,23 @@
 
         async function submitNewUpdate(event) {
             event.preventDefault();
-            
+
             const config = getConfig();
             if (!config || !currentMember) return;
 
             const monthValue = document.getElementById('updateMonth').value;
-            const weight = document.getElementById('updateWeight').value;
-            const bodyFat = document.getElementById('updateBodyFat').value;
-            const energy = document.getElementById('updateEnergy').value;
-            const notes = document.getElementById('updateNotes').value;
+            const health = document.getElementById('updateHealth').value;
+            const relationships = document.getElementById('updateRelationships').value;
+            const purpose = document.getElementById('updatePurpose').value;
+            const personal = document.getElementById('updatePersonal').value;
+            const timeFreedom = document.getElementById('updateTimeFreedom').value;
+            const financialFreedom = document.getElementById('updateFinancialFreedom').value;
+            const top1Feelings = document.getElementById('updateTop1Feelings').value;
+            const top1Causes = document.getElementById('updateTop1Causes').value;
+            const top1Reflection = document.getElementById('updateTop1Reflection').value;
+            const bottom1Feelings = document.getElementById('updateBottom1Feelings').value;
+            const bottom1Causes = document.getElementById('updateBottom1Causes').value;
+            const bottom1Reflection = document.getElementById('updateBottom1Reflection').value;
 
             // Format month for display
             const monthDisplay = formatMonthForDisplay(monthValue);
@@ -1058,16 +1173,29 @@
             const fields = {
                 'Your Name': [currentMember.id],
                 'Month': monthDisplay,
-                'Date Recorded': new Date().toISOString().split('T')[0]
+                'Forum': 'Forum 01'
             };
 
-            if (weight) fields.Weight = parseFloat(weight);
-            if (bodyFat) fields['Body Fat %'] = parseFloat(bodyFat);
-            if (energy) fields['Energy Level'] = parseInt(energy);
-            if (notes) fields.Notes = notes;
+            // Required fields
+            if (health) fields.Health = health;
+            if (relationships) fields.Relationships = relationships;
+            if (purpose) fields['Purpose & Mission'] = purpose;
+            if (personal) fields['Personal & Spiritual Development'] = personal;
+            if (timeFreedom) fields['Time Freedom'] = timeFreedom;
+            if (financialFreedom) fields['Financial Freedom'] = financialFreedom;
+
+            // Top 1% fields
+            if (top1Feelings) fields['Top 1% - Strongest feelings and emotions I felt'] = top1Feelings;
+            if (top1Causes) fields['Top 1% - What caused these feelings and emotions?'] = top1Causes;
+            if (top1Reflection) fields['Top 1% - What is my Self-Reflection about it'] = top1Reflection;
+
+            // Bottom 1% fields (optional)
+            if (bottom1Feelings) fields['Bottom 1% - Strongest feelings and emotions I felt'] = bottom1Feelings;
+            if (bottom1Causes) fields['Bottom 1% - What caused these feelings and emotions?'] = bottom1Causes;
+            if (bottom1Reflection) fields['Bottom 1% - What is my Self-Reflection about it'] = bottom1Reflection;
 
             document.getElementById('addUpdateError').style.display = 'none';
-            const submitButton = event.target.querySelector('button[type="submit"]') || 
+            const submitButton = event.target.querySelector('button[type="submit"]') ||
                                 document.querySelector('.modal-footer button:last-child');
             submitButton.disabled = true;
             submitButton.textContent = 'Saving...';
@@ -1077,7 +1205,7 @@
                     `https://api.airtable.com/v0/${config.baseId}/Monthly%20Member%20Updates`,
                     {
                         method: 'POST',
-                        headers: { 
+                        headers: {
                             'Authorization': `Bearer ${config.apiToken}`,
                             'Content-Type': 'application/json'
                         },
@@ -1093,7 +1221,7 @@
                 // Success!
                 document.getElementById('addUpdateSuccess').textContent = '✅ Update added successfully!';
                 document.getElementById('addUpdateSuccess').style.display = 'block';
-                
+
                 // Reload updates after a short delay
                 setTimeout(() => {
                     closeAddUpdateModal();

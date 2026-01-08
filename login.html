@@ -600,11 +600,13 @@
                         <textarea id="updateBottom1Reflection" placeholder="What did you learn or realize from this experience?"></textarea>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeAddUpdateModal()" class="btn-cancel">Cancel</button>
                 <button onclick="document.getElementById('addUpdateForm').requestSubmit()">Save Update</button>
             </div>
         </div>
     </div>
-
     <script>
         const CONFIG_KEY = 'ultralife_config';
         const SESSION_KEY = 'ultralife_session';

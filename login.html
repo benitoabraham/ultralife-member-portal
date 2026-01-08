@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UltraLife Member Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -16,7 +17,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 500px;
+            max-width: 1200px;
             width: 100%;
             background: white;
             border-radius: 12px;
@@ -32,8 +33,8 @@
         h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
         .subtitle { font-size: 1rem; opacity: 0.9; }
         .content { padding: 40px; }
-        .setup-section, .login-section { display: none; }
-        .setup-section.active, .login-section.active { display: block; }
+        .setup-section, .login-section, .dashboard-section { display: none; }
+        .setup-section.active, .login-section.active, .dashboard-section.active { display: block; }
         .form-group { margin-bottom: 20px; }
         label { 
             display: block; 
@@ -41,7 +42,7 @@
             color: #555; 
             font-weight: 500; 
         }
-        input {
+        input, select, textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #e9ecef;
@@ -49,7 +50,11 @@
             font-size: 1rem;
             font-family: inherit;
         }
-        input:focus { 
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        input:focus, select:focus, textarea:focus { 
             outline: none; 
             border-color: #667eea; 
         }
@@ -74,6 +79,21 @@
         .btn-secondary { 
             background: #6c757d;
             margin-top: 10px;
+        }
+        .btn-success {
+            background: #28a745;
+            width: auto;
+            padding: 12px 24px;
+            margin-bottom: 20px;
+        }
+        .btn-logout {
+            background: #dc3545;
+            width: auto;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        .btn-cancel {
+            background: #6c757d;
         }
         .alert {
             padding: 15px;
@@ -119,9 +139,202 @@
         .test-accounts li {
             margin: 5px 0;
         }
+        
+        /* Dashboard Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .welcome-message h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .welcome-message p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Charts Section */
+        .charts-section {
+            margin-bottom: 40px;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        /* Updates Section */
+        .updates-section {
+            margin-top: 30px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .updates-container {
+            margin-top: 20px;
+        }
+        .update-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.2s;
+        }
+        .update-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .update-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        .update-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .update-date {
+            color: #667eea;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .update-field {
+            margin: 10px 0;
+        }
+        .update-field-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .update-field-value {
+            color: #333;
+            line-height: 1.6;
+        }
+        .no-updates {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .no-updates-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px 12px 0 0;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .modal-body {
+            padding: 30px;
+        }
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+        }
+        .modal-footer button {
+            flex: 1;
+        }
+        
         @media (max-width: 768px) {
             .container { margin: 20px; }
             h1 { font-size: 1.5rem; }
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-logout {
+                margin-top: 15px;
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .btn-success {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -174,7 +387,7 @@
                 </form>
                 
                 <div class="test-accounts">
-                    <strong>📝 Test Accounts:</strong>
+                    <strong>🔍 Test Accounts:</strong>
                     <ul>
                         <li>talor.zamir@ultralife.com / TalorZ2024!</li>
                         <li>shashi.mudunuri@ultralife.com / ShashiM#2024</li>
@@ -182,17 +395,131 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="dashboard-section">
+                <div class="dashboard-header">
+                    <div class="welcome-message">
+                        <h2>👋 Welcome, <span id="memberName">Member</span>!</h2>
+                        <p id="memberEmail"></p>
+                    </div>
+                    <button onclick="logout()" class="btn-logout">Logout</button>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <h3 style="color: #333; margin-bottom: 20px;">📈 Your Progress</h3>
+                    <div id="chartsLoading" class="loading" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Loading charts...</p>
+                    </div>
+                    <div id="chartsContainer" class="charts-grid" style="display: none;">
+                        <div class="chart-container">
+                            <div class="chart-title">⚖️ Weight Progress</div>
+                            <canvas id="weightChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-title">📊 Body Fat %</div>
+                            <canvas id="bodyFatChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-title">⚡ Energy Level</div>
+                            <canvas id="energyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Updates Section -->
+                <div class="updates-section">
+                    <div class="section-header">
+                        <h3 style="color: #333; margin: 0;">📊 Your Monthly Updates</h3>
+                        <button onclick="showAddUpdateModal()" class="btn-success">+ Add New Update</button>
+                    </div>
+                    
+                    <div id="updatesLoading" class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading your updates...</p>
+                    </div>
+                    
+                    <div id="updatesContainer" class="updates-container" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Update Modal -->
+    <div id="addUpdateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Add New Monthly Update</h2>
+            </div>
+            <div class="modal-body">
+                <div id="addUpdateError" class="alert alert-danger" style="display: none;"></div>
+                <div id="addUpdateSuccess" class="alert alert-success" style="display: none;"></div>
+                <form id="addUpdateForm" onsubmit="submitNewUpdate(event)">
+                    <div class="form-group">
+                        <label for="updateMonth">Month *</label>
+                        <input type="month" id="updateMonth" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateWeight">Weight (lbs)</label>
+                        <input type="number" id="updateWeight" step="0.1" placeholder="e.g., 175.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateBodyFat">Body Fat %</label>
+                        <input type="number" id="updateBodyFat" step="0.1" min="0" max="100" placeholder="e.g., 18.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateEnergy">Energy Level (1-10)</label>
+                        <select id="updateEnergy">
+                            <option value="">Select level...</option>
+                            <option value="1">1 - Very Low</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5 - Average</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10 - Excellent</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateNotes">Notes</label>
+                        <textarea id="updateNotes" placeholder="Add any notes about your progress, challenges, or achievements..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeAddUpdateModal()" class="btn-cancel">Cancel</button>
+                <button onclick="document.getElementById('addUpdateForm').requestSubmit()">Save Update</button>
+            </div>
         </div>
     </div>
 
     <script>
         const CONFIG_KEY = 'ultralife_config';
-        const REDIRECT_URL = 'https://airtable.com/appShheFjBIpUtI4G/pagEMIHvcDlPBC8Hd';
+        const SESSION_KEY = 'ultralife_session';
+
+        let currentMember = null;
+        let updateRecords = [];
+        let charts = {
+            weight: null,
+            bodyFat: null,
+            energy: null
+        };
 
         // Check if config exists on page load
         window.onload = function() {
             const config = getConfig();
-            if (config && config.apiToken) {
+            const session = getSession();
+            
+            if (session && session.memberId) {
+                currentMember = session;
+                showDashboard();
+                loadMonthlyUpdates();
+            } else if (config && config.apiToken) {
                 showLogin();
             } else {
                 showSetup();
@@ -202,6 +529,19 @@
         function getConfig() {
             const stored = localStorage.getItem(CONFIG_KEY);
             return stored ? JSON.parse(stored) : null;
+        }
+
+        function getSession() {
+            const stored = sessionStorage.getItem(SESSION_KEY);
+            return stored ? JSON.parse(stored) : null;
+        }
+
+        function setSession(member) {
+            sessionStorage.setItem(SESSION_KEY, JSON.stringify(member));
+        }
+
+        function clearSession() {
+            sessionStorage.removeItem(SESSION_KEY);
         }
 
         function saveConfig(event) {
@@ -246,11 +586,24 @@
         function showSetup() {
             document.getElementById('setupSection').classList.add('active');
             document.getElementById('loginSection').classList.remove('active');
+            document.getElementById('dashboardSection').classList.remove('active');
         }
 
         function showLogin() {
             document.getElementById('setupSection').classList.remove('active');
             document.getElementById('loginSection').classList.add('active');
+            document.getElementById('dashboardSection').classList.remove('active');
+        }
+
+        function showDashboard() {
+            document.getElementById('setupSection').classList.remove('active');
+            document.getElementById('loginSection').classList.remove('active');
+            document.getElementById('dashboardSection').classList.add('active');
+            
+            if (currentMember) {
+                document.getElementById('memberName').textContent = currentMember.name;
+                document.getElementById('memberEmail').textContent = currentMember.email;
+            }
         }
 
         async function login(event) {
@@ -266,16 +619,13 @@
                 return;
             }
 
-            // Hide previous errors
             document.getElementById('loginError').style.display = 'none';
 
-            // Disable submit button
             const submitButton = event.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.textContent = 'Signing in...';
 
             try {
-                // Query Airtable for member with matching email AND password
                 const response = await fetch(
                     `https://api.airtable.com/v0/${config.baseId}/Members?filterByFormula=AND({Email}='${email}',{Password}='${password}')`,
                     {
@@ -291,7 +641,6 @@
                     throw new Error('Authentication request failed');
                 }
 
-                // Check if we found a matching member
                 if (!data.records || data.records.length === 0) {
                     document.getElementById('loginError').textContent = '❌ Invalid email or password. Please try again.';
                     document.getElementById('loginError').style.display = 'block';
@@ -300,12 +649,19 @@
                     return;
                 }
 
-                // Success! Member found with correct credentials
                 const member = data.records[0];
-                console.log('✅ Login successful:', member.fields.Name);
+                currentMember = {
+                    id: member.id,
+                    memberId: member.id,
+                    name: member.fields.Name || 'Member',
+                    email: member.fields.Email
+                };
+                
+                setSession(currentMember);
+                console.log('✅ Login successful:', currentMember.name);
 
-                // Redirect to member portal
-                window.location.href = REDIRECT_URL;
+                showDashboard();
+                loadMonthlyUpdates();
 
             } catch (error) {
                 console.error('Login error:', error);
@@ -316,10 +672,349 @@
             }
         }
 
+        async function loadMonthlyUpdates() {
+            const config = getConfig();
+            if (!config || !currentMember) return;
+
+            document.getElementById('updatesLoading').style.display = 'block';
+            document.getElementById('updatesContainer').style.display = 'none';
+            document.getElementById('chartsLoading').style.display = 'block';
+            document.getElementById('chartsContainer').style.display = 'none';
+
+            try {
+                const response = await fetch(
+                    `https://api.airtable.com/v0/${config.baseId}/Monthly%20Member%20Updates?filterByFormula=FIND('${currentMember.id}',ARRAYJOIN({Member}))&sort[0][field]=Month&sort[0][direction]=asc`,
+                    {
+                        headers: { 
+                            'Authorization': `Bearer ${config.apiToken}` 
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error('Failed to load updates');
+                }
+
+                updateRecords = data.records;
+                displayUpdates(updateRecords);
+                createCharts(updateRecords);
+
+            } catch (error) {
+                console.error('Error loading updates:', error);
+                document.getElementById('updatesContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        ❌ Error loading updates: ${error.message}
+                    </div>
+                `;
+                document.getElementById('updatesContainer').style.display = 'block';
+            } finally {
+                document.getElementById('updatesLoading').style.display = 'none';
+                document.getElementById('chartsLoading').style.display = 'none';
+            }
+        }
+
+        function createCharts(records) {
+            if (!records || records.length === 0) {
+                document.getElementById('chartsContainer').style.display = 'none';
+                return;
+            }
+
+            // Prepare data
+            const months = records.map(r => r.fields.Month || 'Unknown');
+            const weights = records.map(r => r.fields.Weight || null);
+            const bodyFats = records.map(r => r.fields['Body Fat %'] || null);
+            const energyLevels = records.map(r => r.fields['Energy Level'] || null);
+
+            // Destroy existing charts
+            if (charts.weight) charts.weight.destroy();
+            if (charts.bodyFat) charts.bodyFat.destroy();
+            if (charts.energy) charts.energy.destroy();
+
+            // Chart configuration
+            const chartConfig = {
+                type: 'line',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            };
+
+            // Weight Chart
+            if (weights.some(w => w !== null)) {
+                charts.weight = new Chart(document.getElementById('weightChart'), {
+                    ...chartConfig,
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Weight (lbs)',
+                            data: weights,
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    }
+                });
+            }
+
+            // Body Fat Chart
+            if (bodyFats.some(bf => bf !== null)) {
+                charts.bodyFat = new Chart(document.getElementById('bodyFatChart'), {
+                    ...chartConfig,
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Body Fat %',
+                            data: bodyFats,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    }
+                });
+            }
+
+            // Energy Level Chart
+            if (energyLevels.some(e => e !== null)) {
+                charts.energy = new Chart(document.getElementById('energyChart'), {
+                    ...chartConfig,
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Energy Level',
+                            data: energyLevels,
+                            borderColor: '#ffc107',
+                            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        ...chartConfig.options,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 10
+                            }
+                        }
+                    }
+                });
+            }
+
+            document.getElementById('chartsContainer').style.display = 'grid';
+        }
+
+        function displayUpdates(records) {
+            const container = document.getElementById('updatesContainer');
+            
+            if (!records || records.length === 0) {
+                container.innerHTML = `
+                    <div class="no-updates">
+                        <div class="no-updates-icon">📭</div>
+                        <h3>No Updates Yet</h3>
+                        <p>Click "Add New Update" to record your first monthly progress!</p>
+                    </div>
+                `;
+            } else {
+                // Sort by month descending for display
+                const sortedRecords = [...records].reverse();
+                
+                container.innerHTML = sortedRecords.map(record => {
+                    const fields = record.fields;
+                    return `
+                        <div class="update-card">
+                            <div class="update-header">
+                                <div>
+                                    <div class="update-title">${fields.Month || 'No Month'}</div>
+                                    ${fields['Date Recorded'] ? `<div class="update-date">Recorded: ${formatDate(fields['Date Recorded'])}</div>` : ''}
+                                </div>
+                            </div>
+                            
+                            ${fields.Weight ? `
+                                <div class="update-field">
+                                    <div class="update-field-label">⚖️ Weight</div>
+                                    <div class="update-field-value">${fields.Weight} lbs</div>
+                                </div>
+                            ` : ''}
+                            
+                            ${fields['Body Fat %'] ? `
+                                <div class="update-field">
+                                    <div class="update-field-label">📊 Body Fat %</div>
+                                    <div class="update-field-value">${fields['Body Fat %']}%</div>
+                                </div>
+                            ` : ''}
+                            
+                            ${fields['Energy Level'] ? `
+                                <div class="update-field">
+                                    <div class="update-field-label">⚡ Energy Level</div>
+                                    <div class="update-field-value">${fields['Energy Level']}/10</div>
+                                </div>
+                            ` : ''}
+                            
+                            ${fields.Notes ? `
+                                <div class="update-field">
+                                    <div class="update-field-label">📝 Notes</div>
+                                    <div class="update-field-value">${fields.Notes}</div>
+                                </div>
+                            ` : ''}
+                            
+                            ${fields['Progress Photos'] && fields['Progress Photos'].length > 0 ? `
+                                <div class="update-field">
+                                    <div class="update-field-label">📸 Progress Photos</div>
+                                    <div class="update-field-value">
+                                        ${fields['Progress Photos'].map(photo => 
+                                            `<img src="${photo.url}" alt="Progress photo" style="max-width: 200px; margin: 5px; border-radius: 8px;">`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            container.style.display = 'block';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function formatMonthForDisplay(monthValue) {
+            // monthValue is in format YYYY-MM
+            const [year, month] = monthValue.split('-');
+            const date = new Date(year, month - 1);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+        }
+
+        function showAddUpdateModal() {
+            document.getElementById('addUpdateModal').classList.add('active');
+            document.getElementById('addUpdateError').style.display = 'none';
+            document.getElementById('addUpdateSuccess').style.display = 'none';
+            
+            // Set default month to current month
+            const now = new Date();
+            const monthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            document.getElementById('updateMonth').value = monthStr;
+        }
+
+        function closeAddUpdateModal() {
+            document.getElementById('addUpdateModal').classList.remove('active');
+            document.getElementById('addUpdateForm').reset();
+        }
+
+        async function submitNewUpdate(event) {
+            event.preventDefault();
+            
+            const config = getConfig();
+            if (!config || !currentMember) return;
+
+            const monthValue = document.getElementById('updateMonth').value;
+            const weight = document.getElementById('updateWeight').value;
+            const bodyFat = document.getElementById('updateBodyFat').value;
+            const energy = document.getElementById('updateEnergy').value;
+            const notes = document.getElementById('updateNotes').value;
+
+            // Format month for display
+            const monthDisplay = formatMonthForDisplay(monthValue);
+
+            // Build fields object
+            const fields = {
+                'Member': [currentMember.id],
+                'Month': monthDisplay,
+                'Date Recorded': new Date().toISOString().split('T')[0]
+            };
+
+            if (weight) fields.Weight = parseFloat(weight);
+            if (bodyFat) fields['Body Fat %'] = parseFloat(bodyFat);
+            if (energy) fields['Energy Level'] = parseInt(energy);
+            if (notes) fields.Notes = notes;
+
+            document.getElementById('addUpdateError').style.display = 'none';
+            const submitButton = event.target.querySelector('button[type="submit"]') || 
+                                document.querySelector('.modal-footer button:last-child');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Saving...';
+
+            try {
+                const response = await fetch(
+                    `https://api.airtable.com/v0/${config.baseId}/Monthly%20Member%20Updates`,
+                    {
+                        method: 'POST',
+                        headers: { 
+                            'Authorization': `Bearer ${config.apiToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ fields })
+                    }
+                );
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'Failed to create update');
+                }
+
+                // Success!
+                document.getElementById('addUpdateSuccess').textContent = '✅ Update added successfully!';
+                document.getElementById('addUpdateSuccess').style.display = 'block';
+                
+                // Reload updates after a short delay
+                setTimeout(() => {
+                    closeAddUpdateModal();
+                    loadMonthlyUpdates();
+                }, 1500);
+
+            } catch (error) {
+                console.error('Error adding update:', error);
+                document.getElementById('addUpdateError').textContent = '❌ Error: ' + error.message;
+                document.getElementById('addUpdateError').style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Save Update';
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                clearSession();
+                currentMember = null;
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                showLogin();
+            }
+        }
+
         function resetConfig() {
             if (confirm('Are you sure you want to reset the configuration? You will need to enter your API token again.')) {
                 localStorage.removeItem(CONFIG_KEY);
+                clearSession();
+                currentMember = null;
                 showSetup();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('addUpdateModal');
+            if (event.target === modal) {
+                closeAddUpdateModal();
             }
         }
     </script>

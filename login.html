@@ -761,10 +761,7 @@
                 const member = data.records[0];
 
                 // Check if user has Member role
-                console.log("Member fields:", member.fields);
-                console.log("Role field value:", member.fields.Role);
-                console.log("Roles field value:", member.fields.Roles);
-                const roles = member.fields.Role;
+                const roles = member.fields.Roles;
                 const hasRole = Array.isArray(roles) ? roles.includes('Member') : roles === 'Member';
                 
                 if (!hasRole) {
